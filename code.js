@@ -4,19 +4,19 @@ function are_isomorphic(graph1, graph2) {
     }
 
     let control = [];
-    for(let j = 0; j < graph[0].length; j++) {
+    for(let j = 0; j < graph1[0].length; j++) {
         control[j] = 0;
     }
     let i = 1;
 
-    let permutationsLeft = graph1[0].length;
-    permutationsLeft = factorialize(permutationsLeft) - 1;
+    let permutationsLeft = factorialize(graph[0].length) - 1;
+
     while(permutationsLeft > 0) {
         if(compareGraphs(graph1,graph2)){
             return true;
         }
         else{
-            graph1,c,i = permuteGraph(graph1);
+            [graph1,control,i] = permuteGraph(graph1, control, i);
             permutationsLeft--;
         }
     }
@@ -24,8 +24,8 @@ function are_isomorphic(graph1, graph2) {
 }
 
 function permuteGraph(graph, c, i) {
-    let nodes = graph[0];  // nodes/vertices of the graph
-    let edges = graph[1];  // edges of the graph
+    let nodes = graph[0]; 
+    let edges = graph[1];
 
     // Handle permutations of vertices
     while (i < nodes.length) {
@@ -44,27 +44,32 @@ function permuteGraph(graph, c, i) {
 
             // Update the edges based on the new node positions
             for (let j = 0; j < edges.length; j++) {
-                edges[j] = edges[j].map(v => nodes.indexOf(v));  // remap edges
+                edges[j] = edges[j].map(v => nodes.indexOf(v));
             }
 
             // Increment control array and reset index for the next cycle
             c[i]++;
             i = 1;
-            return [graph, c, i];  // Return the updated graph, control array, and index
+            return [graph, c, i];
         } else {
             // Reset control array and move to the next vertex
             c[i] = 0;
             i++;
         }
     }
-    return [graph, c, i];  // Return the updated graph, control array, and index
+    return [graph, c, i];
 }
 
 
 function compareGraphs(graph1,graph2) {
-    for(const edge in graph1[1]){
-        if(edge != graph2[1][edge]){
-            return false;
+    for (let i = 0; i < graph1[1].length; i++) {
+        // sorts edges with the node of value i
+        let edge1 = graph1[1][i].sort();
+        let edge2 = graph2[1][i].sort();
+        for (let j = 0; j < edge1.length; j++) {
+            if (edge1[j] !== edge2[j]) {
+                return false;
+            }
         }
     }
     return true;
