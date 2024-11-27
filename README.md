@@ -19,3 +19,6 @@ What is the worst-case big $\Theta$ time complexity of your algorithm?
 ## Sources and Plagarism Statement
 
 Took the test code from fellow student Collin Davis' repository.
+Took the brute force implementation of heap's algorithm from my brute force algorithm, just tweaked to fit the setting.
+Used this for factorilization code [FreeCodeCamp](https://www.freecodecamp.org/news/how-to-factorialize-a-number-in-javascript-9263c89a4b38/)
+Used this for understanding more on isomorphism [Wikipedia](https://en.wikipedia.org/wiki/Graph_isomorphism)
