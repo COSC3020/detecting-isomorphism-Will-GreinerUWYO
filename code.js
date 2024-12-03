@@ -1,21 +1,24 @@
 function are_isomorphic(graph1, graph2) {
+    // ensures same number of edges and nodes
     if (graph1[0].length != graph2[0].length || graph1[1].length != graph2[1].length) {
         return false;
     }
-    
+
+    // initializes control variables for Heap's Algorithm
     let control = [];
-    
     for(let j = 0; j < graph1[0].length; j++) {
         control[j] = 0;
     }
     let i = 1;
-
     let permutationsLeft = factorialize(graph1[0].length) - 1 ;
 
+    // continues until each permutation is tried
     while(permutationsLeft > 0) {
+        // if the graphs match, they are isomorphic
         if(compareGraphs(graph1,graph2)){
             return true;
         }
+        // otherwise, permute the graph and update the control variables
         else{
             [graph1,control,i] = permuteGraph(graph1, control, i);
             permutationsLeft--;
@@ -24,6 +27,7 @@ function are_isomorphic(graph1, graph2) {
     return false;
 }
 
+// Heaps algorithm on the graph
 function permuteGraph(graph, c, i) {
     let nodes = graph[0]; 
     let edges = graph[1];
@@ -43,8 +47,7 @@ function permuteGraph(graph, c, i) {
             }
 
             
-            // Update the edges based on the new node positions
-            // edges = edges.map(edge => edge.map(vertex => nodes.indexOf(vertex)));
+            // Updates each edge based on the new node positions
             for(let i = 0; i < edges.length; i++){
                 edges[i] = edgeUpdate(nodes, edges, i);
             }
@@ -62,7 +65,7 @@ function permuteGraph(graph, c, i) {
     return [graph, c, i];
 }
 
-
+// compares the edges, if all are equal, it is isomorphic
 function compareGraphs(graph1,graph2) {
     let edges1 = orderEdges(graph1[1]);
     let edges2 = orderEdges(graph2[1]);
@@ -75,6 +78,7 @@ function compareGraphs(graph1,graph2) {
     return true;
 }
 
+// helps permute
 function factorialize(num) {
     var result = num;
     if (num === 0 || num === 1){
@@ -93,6 +97,7 @@ function orderEdges(edges) {
     return edges.sort();
 }
 
+// swaps the values in each edge to reflect the new node values.
 function edgeUpdate(nodes, edges, i) {
     let edgeStart = edges[i][0];
     let edgeEnd = edges[i][1];
