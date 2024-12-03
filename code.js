@@ -2,14 +2,15 @@ function are_isomorphic(graph1, graph2) {
     if (graph1[0].length != graph2[0].length || graph1[1].length != graph2[1].length) {
         return false;
     }
-
+    
     let control = [];
+    
     for(let j = 0; j < graph1[0].length; j++) {
         control[j] = 0;
     }
     let i = 1;
 
-    let permutationsLeft = factorialize(graph1[0].length) - 1;
+    let permutationsLeft = factorialize(graph1[0].length) - 1 ;
 
     while(permutationsLeft > 0) {
         if(compareGraphs(graph1,graph2)){
@@ -26,7 +27,6 @@ function are_isomorphic(graph1, graph2) {
 function permuteGraph(graph, c, i) {
     let nodes = graph[0]; 
     let edges = graph[1];
-
     // Handle permutations of vertices
     while (i < nodes.length) {
         if (c[i] < i) {
@@ -44,7 +44,10 @@ function permuteGraph(graph, c, i) {
 
             
             // Update the edges based on the new node positions
-            edges = edges.map(edge => edge.map(vertex => nodes.indexOf(vertex)));
+            // edges = edges.map(edge => edge.map(vertex => nodes.indexOf(vertex)));
+            for(let i = 0; i < edges.length; i++){
+                edges[i] = edgeUpdate(nodes, edges, i);
+            }
 
             // Increment control array and reset index for the next cycle
             c[i]++;
@@ -88,4 +91,15 @@ function factorialize(num) {
 function orderEdges(edges) {
     edges = edges.map(edge => edge.sort());
     return edges.sort();
+}
+
+function edgeUpdate(nodes, edges, i) {
+    let edgeStart = edges[i][0];
+    let edgeEnd = edges[i][1];
+    let newPosition = 0;
+    newPosition = nodes.indexOf(edgeStart);
+    edgeStart = newPosition;
+    newPosition = nodes.indexOf(edgeEnd);
+    edgeEnd = newPosition;
+    return [edgeStart,edgeEnd];
 }
