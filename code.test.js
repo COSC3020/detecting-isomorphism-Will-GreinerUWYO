@@ -1,7 +1,4 @@
 const fs = require('fs');
-const jsc = require('jsverify');
-const path = require('path');
-const { start } = require('repl');
 
 eval(fs.readFileSync('code.js')+'');
 //Need Pentagon, Star, Empty, Square, Hourglass, Pentacross, Complex, G, and H 
